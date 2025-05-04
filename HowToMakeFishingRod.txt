@@ -1,0 +1,21 @@
+FishingRod klases funkcionalumai:
+
+Laukas string chosenFish -
+issaugo kokia zuvi pagavo;
+
+metodas prepare() - 
+papraso vartotojo ivesti skaiciu nuo 1 iki 5 kuris nustato pasirinkta masala, ivesta skaiciu perduoda metodui prepare(int baitChoice);
+
+metodas prepare(int baitChoice) -
+susieja pasirinkto masalo numeri su kazkuria zuvimi, gauta zuvi issaugo lauke chosenFish, jei masalo numeris nepriklauso intervalui [1, 5] tai parenka bet kuria zuvi;
+1 - Eserys,   
+2 - Karsis,
+3 - Starkis,  
+4 - Lydeka,   
+5 - Samas.
+
+Metodas fish() -
+Atspausdina kokia zuvis pagauta;
+
+metodas getChosenFish() -
+grazina chosenFish.     
