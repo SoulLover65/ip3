@@ -6,6 +6,15 @@
 // Concrete Strategy: FishingRod
 void FishingRod::prepare()
 {
+    int choice;
+    std::cout << "Pasirinkite masala:\n";
+    std::cout << "1. Sliekas\n2. Duona\n3. Vabzdys\n4. Zuvele\n5. Mesa\n";
+    std::cin >> choice;
+    prepare(choice);  // Call the non-interactive version
+}
+
+void FishingRod::prepare(int baitChoice)
+{
     std::vector<std::pair<std::string, std::string>> baitOptions = {
         {"Sliekas", "Eserys"},
         {"Duona", "Karsis"},
@@ -14,24 +23,16 @@ void FishingRod::prepare()
         {"Mesa", "Samas"}
     };
 
-    std::cout << "Pasirinkite masala:\n";
-    for (size_t i = 0; i < baitOptions.size(); ++i)
+    if (baitChoice >= 1 && baitChoice <= static_cast<int>(baitOptions.size()))
     {
-        std::cout << i + 1 << ". " << baitOptions[i].first << std::endl;
-    }
-
-    int choice = 0;
-    std::cin >> choice;
-    if (choice >= 1 && choice <= static_cast<int>(baitOptions.size()))
-    {
-        chosenFish = baitOptions[choice - 1].second;
+        chosenFish = baitOptions[baitChoice - 1].second;
     }
     else
     {
-        std::cout << "Netinkamas pasirinkimas. Naudojamas atsitiktinis masalas.\n";
         chosenFish = baitOptions[std::rand() % baitOptions.size()].second;
     }
 }
+
 
 void FishingRod::fish() const
 {

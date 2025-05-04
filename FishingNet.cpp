@@ -3,14 +3,17 @@
 #include <vector>
 #include <random>
 
-// Concrete Strategy: FishingNet
 void FishingNet::prepare()
 {
+    int choice;
     std::cout << "Pasirinkite tinklo dydi (1 - mazas, 2 - vidutinis, 3 - didelis): ";
-    int choice = 0;
     std::cin >> choice;
+    prepare(choice);
+}
 
-    switch (choice)
+void FishingNet::prepare(int sizeChoice)
+{
+    switch (sizeChoice)
     {
     case 1:
         netSize = 3;

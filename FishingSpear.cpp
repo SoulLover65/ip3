@@ -5,15 +5,18 @@
 
 void FishingSpear::prepare()
 {
+    int choice;
     std::cout << "Pasirinkite nardymo gyli:\n";
     std::cout << "1. Seklus (didele sekmes tikimybe, bet dazniausiai viena zuvis)\n";
     std::cout << "2. Vidutinis (vidutine sekme, galimybe pagauti 2 zuvis)\n";
     std::cout << "3. Gilus (zema sekmes tikimybe, bet daznai pagautos 2 zuvys)\n";
-
-    int choice = 0;
     std::cin >> choice;
+    prepare(choice);
+}
 
-    switch (choice)
+void FishingSpear::prepare(int depthChoice)
+{
+    switch (depthChoice)
     {
     case 1:
         depthLevel = "Seklus";

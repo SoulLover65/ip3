@@ -10,7 +10,9 @@ private:
 
 public:
     void prepare() override;
+    void prepare(int baitChoice);  // Overloaded version for testing
     void fish() const override;
 };
+
 
 #endif // FISHINGROD_H_INCLUDED

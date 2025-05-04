@@ -10,6 +10,7 @@ private:
 
 public:
     void prepare() override;
+    void prepare(int sizeChoice);
     void fish() const override;
 };
 

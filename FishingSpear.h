@@ -13,6 +13,7 @@ private:
 
 public:
     void prepare() override;
+    void prepare(int depthChoice);
     void fish() const override;
 };
 
