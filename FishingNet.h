@@ -3,12 +3,15 @@
 
 #include "FishingTool.h"
 
-// Concrete Strategy: FishingNet
-class FishingNet : public FishingTool {
+class FishingNet : public FishingTool
+{
+private:
+    int netSize = 3;
+
 public:
-    void fish() const override {
-        std::cout << "Gaudoma naudojant tinklą." << std::endl;
-    }
+    void prepare() override;
+    void fish() const override;
 };
+
 
 #endif // FISHINGNET_H_INCLUDED

@@ -3,12 +3,14 @@
 
 #include "FishingTool.h"
 
-// Concrete Strategy: FishingRod
-class FishingRod : public FishingTool {
+class FishingRod : public FishingTool
+{
+private:
+    std::string chosenFish;
+
 public:
-    void fish() const override {
-        std::cout << "Gaudoma naudojant meškerę." << std::endl;
-    }
+    void prepare() override;
+    void fish() const override;
 };
 
 #endif // FISHINGROD_H_INCLUDED
