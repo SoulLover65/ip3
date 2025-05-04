@@ -35,7 +35,7 @@ build_run: build run
 test_build_run: test_build test_run
 
 # Object files
-%.o: %.cpp FishingRod.h FishingNet.h FishingTool.h FishingBoat.h FishingSpear.h
+%.o: %.cpp FishingRod.h FishingNet.h FishingTool.h FishingBoat.h FishingSpear.hn bbbbbbb nbbbbbbbbbbbb
 	$(CXX) $(CXXFLAGS) -c $<
 
 # Clean
