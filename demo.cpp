@@ -12,6 +12,7 @@ int main()
     boat.prepareFishing();
     boat.goFishing();
 
+    //pakeiciame strategija, pasinaudojama polimorfizmu tam kad butu visai kitaip zvejojama
     boat.setStrategy(&spear);
     boat.prepareFishing();
     boat.goFishing();
