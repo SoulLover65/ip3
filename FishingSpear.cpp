@@ -1,43 +1,47 @@
 #include "FishingSpear.h"
+#include "FishSelector.h"
 #include <iostream>
-#include <vector>
 #include <random>
 
 void FishingSpear::prepare()
 {
     int choice;
     std::cout << "Pasirinkite nardymo gyli:\n";
-    std::cout << "1. Seklus (didele sekmes tikimybe, bet dazniausiai viena zuvis)\n";
-    std::cout << "2. Vidutinis (vidutine sekme, galimybe pagauti 2 zuvis)\n";
-    std::cout << "3. Gilus (zema sekmes tikimybe, bet daznai pagautos 2 zuvys)\n";
+    std::cout << "1. Seklus\n2. Vidutinis\n3. Gilus\n";
     std::cin >> choice;
-    prepare(choice);
+
+    switch (choice)
+    {
+    case 1: prepare(FishingDepth::Shallow); break;
+    case 2: prepare(FishingDepth::Medium); break;
+    case 3: prepare(FishingDepth::Deep); break;
+    default:
+        std::cout << "Netinkamas pasirinkimas. Naudojamas vidutinis gylis.\n";
+        prepare(FishingDepth::Medium);
+        break;
+    }
 }
 
-void FishingSpear::prepare(int depthChoice)
+void FishingSpear::prepare(FishingDepth depth)
 {
-    switch (depthChoice)
+    depthLevel = depth;
+
+    switch (depth)
     {
-    case 1:
-        depthLevel = "Seklus";
+    case FishingDepth::Shallow:
         successChance = 0.8;
         doubleCatchChance = 0.3;
+        category = FishCategory::ShallowWater;
         break;
-    case 2:
-        depthLevel = "Vidutinis";
+    case FishingDepth::Medium:
         successChance = 0.6;
         doubleCatchChance = 0.5;
+        category = FishCategory::MediumWater;
         break;
-    case 3:
-        depthLevel = "Gilus";
+    case FishingDepth::Deep:
         successChance = 0.4;
         doubleCatchChance = 0.8;
-        break;
-    default:
-        std::cout << "Netinkamas pasirinkimas. Pasirinktas vidutinis gylis.\n";
-        depthLevel = "Vidutinis";
-        successChance = 0.6;
-        doubleCatchChance = 0.5;
+        category = FishCategory::DeepWater;
         break;
     }
 }
@@ -45,28 +49,31 @@ void FishingSpear::prepare(int depthChoice)
 void FishingSpear::fish() const
 {
     static std::mt19937 rng(std::random_device{}());
-    std::vector<std::string> targetFish = {
-        "Ungurys", "Skumbre", "Menke", "Otas", "Juru eserys"
-    };
-
     std::uniform_real_distribution<> chanceDist(0.0, 1.0);
-    std::uniform_int_distribution<> fishDist(0, targetFish.size() - 1);
 
-    std::cout << "Nardoma i gyli: " << depthLevel << ". Pradedamas harpunavimas..." << std::endl;
+    std::cout << "Nardoma i gyli: ";
+    switch (depthLevel)
+    {
+    case FishingDepth::Shallow: std::cout << "Seklus"; break;
+    case FishingDepth::Medium: std::cout << "Vidutinis"; break;
+    case FishingDepth::Deep: std::cout << "Gilus"; break;
+    }
+    std::cout << ". Pradedamas harpunavimas..." << std::endl;
 
     if (chanceDist(rng) > successChance)
     {
-        std::cout << "Nepavyko pagauti zuvies. Bandymas nesekmingas." << std::endl;
+        std::cout << "Nepavyko pagauti zuvies." << std::endl;
         return;
     }
 
     int count = (chanceDist(rng) < doubleCatchChance) ? 2 : 1;
+    auto caught = FishSelector::getFish(category, count);
 
     std::cout << "Pagauta zuvu: ";
-    for (int i = 0; i < count; ++i)
+    for (size_t i = 0; i < caught.size(); ++i)
     {
-        std::cout << targetFish[fishDist(rng)];
-        if (i != count - 1)
+        std::cout << caught[i];
+        if (i != caught.size() - 1)
             std::cout << ", ";
     }
     std::cout << "." << std::endl;

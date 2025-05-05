@@ -13,35 +13,11 @@ public:
     explicit FishingBoat(FishingTool* initialStrategy)
         : strategy(initialStrategy) {}
 
-    void setStrategy(FishingTool* newStrategy)
-    {
-        strategy = newStrategy;
-    }
+    void setStrategy(FishingTool* newStrategy);
 
-    void prepareFishing() const
-    {
-        if (strategy)
-        {
-            strategy->prepare();
-        }
-        else
-        {
-            std::cout << "Nera pasirinkta zvejybos strategija!" << std::endl;
-        }
-    }
+    void prepareFishing() const;
 
-    void goFishing() const
-    {
-        std::cout << "Valtis pradeda zvejyba..." << std::endl;
-        if (strategy)
-        {
-            strategy->fish();
-        }
-        else
-        {
-            std::cout << "Nera pasirinkta zvejybos strategija!" << std::endl;
-        }
-    }
+    void goFishing() const;
 };
 
 #endif // FISHINGBOAT_H_INCLUDED

@@ -2,18 +2,20 @@
 #define FISHINGSPEAR_H_INCLUDED
 
 #include "FishingTool.h"
-#include <string>
+#include "FishingDepth.h"
+#include "FishCategory.h"
 
 class FishingSpear : public FishingTool
 {
 private:
-    std::string depthLevel;
+    FishingDepth depthLevel;
     double successChance;
     double doubleCatchChance;
+    FishCategory category;
 
 public:
     void prepare() override;
-    void prepare(int depthChoice);
+    void prepare(FishingDepth depth);
     void fish() const override;
 };
 

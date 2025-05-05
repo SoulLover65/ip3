@@ -1,7 +1,6 @@
 #include "FishingNet.h"
+#include "FishSelector.h"
 #include <iostream>
-#include <vector>
-#include <random>
 
 void FishingNet::prepare()
 {
@@ -33,21 +32,17 @@ void FishingNet::prepare(int sizeChoice)
 
 void FishingNet::fish() const
 {
-    static std::mt19937 rng(std::random_device{}());
-    std::vector<std::string> shallowWaterFish = {
-        "Kuojyte", "Plakis", "Raude", "Grundzulas", "Karosiukas"
-    };
-    std::uniform_int_distribution<> fishDist(0, shallowWaterFish.size() - 1);
-
     std::cout << "Gaudoma naudojant tinkla." << std::endl;
+
+    auto caughtFish = FishSelector::getFish(FishCategory::ShallowWater, netSize);
+
     std::cout << "Pagauta zuvu: ";
-    for (int i = 0; i < netSize; ++i)
+    for (size_t i = 0; i < caughtFish.size(); ++i)
     {
-        std::cout << shallowWaterFish[fishDist(rng)];
-        if (i != netSize - 1)
+        std::cout << caughtFish[i];
+        if (i != caughtFish.size() - 1)
             std::cout << ", ";
     }
     std::cout << "." << std::endl;
-    std::cout<<std::endl;
+    std::cout << std::endl;
 }
-

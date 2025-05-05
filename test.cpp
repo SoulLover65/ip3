@@ -1,50 +1,56 @@
-//Instructions on how to make FishingRod in HowToMakeFishingRod.txt
-
 #include "FishingRod.h"
+#include "FishCategory.h"
 #include <cassert>
 #include <iostream>
+#include <set>
+#include <vector>
 
 int main()
 {
     FishingRod rod;
 
-    // Bait choices and expected fish
-    std::string expectedFish[5] = {
-        "Eserys",   // 1. Sliekas
-        "Karsis",   // 2. Duona
-        "Starkis",  // 3. Vabzdys
-        "Lydeka",   // 4. Zuvele
-        "Samas"     // 5. Mesa
+    struct TestCase
+    {
+        int baitChoice;
+        FishCategory expectedCategory;
+        std::set<std::string> validFish;
     };
 
-    std::cout << "Testuojamos visos galimos masalo pasirinktys:\n";
+    std::vector<TestCase> tests = {
+        {1, FishCategory::ShallowWater, {"Kuojyte", "Plakis", "Raude", "Grundzulas", "Karosiukas"}},
+        {2, FishCategory::MediumWater,  {"Eserys", "Karsis", "Starkis", "Lydeka", "Samas"}},
+        {3, FishCategory::DeepWater,    {"Ungurys", "Skumbre", "Menke", "Otas", "Juru eserys"}}
+    };
 
-    // Test all valid bait choices
-    for (int i = 1; i <= 5; ++i)
+    std::cout << "Testuojamos visos 3 masalo pasirinktys:\n";
+
+    for (const auto& test : tests)
     {
-        rod.prepare(i);
-        std::string result = rod.getChosenFish();
-        std::cout << "Pasirinkta " << i << " -> Tikimasi: " << expectedFish[i - 1] << ", Gauta: " << result << std::endl;
-        assert(result == expectedFish[i - 1]);
+        rod.prepare(test.baitChoice);
+        std::string fish = rod.getChosenFish();
+        FishCategory cat = rod.getFishCategory();
+
+        std::cout << "Bait choice: " << test.baitChoice
+                  << " -> Kategorija: " << static_cast<int>(cat)
+                  << ", Pagauta: " << fish << std::endl;
+
+        assert(cat == test.expectedCategory);
+        assert(test.validFish.count(fish) > 0);
     }
 
-    // Test with invalid bait choice (e.g., 999) to check random fallback
+    // Test with invalid input
     rod.prepare(999);
     std::string randomFish = rod.getChosenFish();
     std::cout << "Netinkama pasirinktis -> Gauta: " << randomFish << std::endl;
 
-    // Ensure result is one of the expected values
-    bool found = false;
-    for (int i = 0; i < 5; ++i)
-    {
-        if (randomFish == expectedFish[i])
-        {
-            found = true;
-            break;
-        }
-    }
-    assert(found);
+    std::set<std::string> allFish = {
+        "Kuojyte", "Plakis", "Raude", "Grundzulas", "Karosiukas",
+        "Eserys", "Karsis", "Starkis", "Lydeka", "Samas",
+        "Ungurys", "Skumbre", "Menke", "Otas", "Juru eserys"
+    };
 
-    std::cout << "\nVisi paprasti testai praeiti sekmingai!" << std::endl;
+    assert(allFish.count(randomFish) > 0);
+
+    std::cout << "\nVisi testai praeiti sekmingai!" << std::endl;
     return 0;
 }
