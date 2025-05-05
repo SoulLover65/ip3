@@ -10,54 +10,56 @@ void FishingSpear::prepare()
     std::cout << "1. Seklus\n2. Vidutinis\n3. Gilus\n";
     std::cin >> choice;
 
-    switch (choice)
+    static const std::unordered_map<int, FishingDepth> depthMap = {
+        {1, FishingDepth::Shallow},
+        {2, FishingDepth::Medium},
+        {3, FishingDepth::Deep}
+    };
+
+    auto it = depthMap.find(choice);
+    if (it != depthMap.end())
     {
-    case 1: prepare(FishingDepth::Shallow); break;
-    case 2: prepare(FishingDepth::Medium); break;
-    case 3: prepare(FishingDepth::Deep); break;
-    default:
+        prepare(it->second);
+    }
+    else
+    {
         std::cout << "Netinkamas pasirinkimas. Naudojamas vidutinis gylis.\n";
         prepare(FishingDepth::Medium);
-        break;
     }
 }
 
 void FishingSpear::prepare(FishingDepth depth)
 {
-    depthLevel = depth;
+    struct Config {
+        double success;
+        double doubleChance;
+        FishCategory category;
+    };
 
-    switch (depth)
-    {
-    case FishingDepth::Shallow:
-        successChance = 0.8;
-        doubleCatchChance = 0.3;
-        category = FishCategory::ShallowWater;
-        break;
-    case FishingDepth::Medium:
-        successChance = 0.6;
-        doubleCatchChance = 0.5;
-        category = FishCategory::MediumWater;
-        break;
-    case FishingDepth::Deep:
-        successChance = 0.4;
-        doubleCatchChance = 0.8;
-        category = FishCategory::DeepWater;
-        break;
-    }
+    static const std::unordered_map<FishingDepth, Config> configMap = {
+        {FishingDepth::Shallow, {0.8, 0.3, FishCategory::ShallowWater}},
+        {FishingDepth::Medium,  {0.6, 0.5, FishCategory::MediumWater}},
+        {FishingDepth::Deep,    {0.4, 0.8, FishCategory::DeepWater}}
+    };
+
+    const auto& config = configMap.at(depth);
+    depthLevel = depth;
+    successChance = config.success;
+    doubleCatchChance = config.doubleChance;
+    category = config.category;
 }
 
 void FishingSpear::fish() const
 {
-    static std::mt19937 rng(std::random_device{}());
-    std::uniform_real_distribution<> chanceDist(0.0, 1.0);
+   static const std::unordered_map<FishingDepth, std::string> depthNames = {
+        {FishingDepth::Shallow, "Seklus"},
+        {FishingDepth::Medium,  "Vidutinis"},
+        {FishingDepth::Deep,    "Gilus"}
+    };
 
-    std::cout << "Nardoma i gyli: ";
-    switch (depthLevel)
-    {
-    case FishingDepth::Shallow: std::cout << "Seklus"; break;
-    case FishingDepth::Medium: std::cout << "Vidutinis"; break;
-    case FishingDepth::Deep: std::cout << "Gilus"; break;
-    }
+    std::cout << "Nardoma i gyli: " << depthNames.at(depthLevel);
+    std::cout << ". Pradedamas harpunavimas..." << std::endl;
+
     std::cout << ". Pradedamas harpunavimas..." << std::endl;
 
     if (chanceDist(rng) > successChance)

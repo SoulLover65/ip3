@@ -12,21 +12,21 @@ void FishingNet::prepare()
 
 void FishingNet::prepare(int sizeChoice)
 {
-    switch (sizeChoice)
+    static const std::unordered_map<int, int> netSizes = {
+        {1, 3},
+        {2, 5},
+        {3, 7}
+    };
+
+    auto it = netSizes.find(sizeChoice);
+    if (it != netSizes.end())
     {
-    case 1:
-        netSize = 3;
-        break;
-    case 2:
-        netSize = 5;
-        break;
-    case 3:
-        netSize = 7;
-        break;
-    default:
+        netSize = it->second;
+    }
+    else
+    {
         std::cout << "Netinkamas pasirinkimas. Naudojamas vidutinis tinklas." << std::endl;
         netSize = 5;
-        break;
     }
 }
 
