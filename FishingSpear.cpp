@@ -60,7 +60,9 @@ void FishingSpear::fish() const
     std::cout << "Nardoma i gyli: " << depthNames.at(depthLevel);
     std::cout << ". Pradedamas harpunavimas..." << std::endl;
 
-    std::cout << ". Pradedamas harpunavimas..." << std::endl;
+    static std::random_device rd;
+    static std::mt19937 rng(rd());
+    static std::uniform_real_distribution<> chanceDist(0.0, 1.0);
 
     if (chanceDist(rng) > successChance)
     {

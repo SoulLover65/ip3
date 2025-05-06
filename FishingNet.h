@@ -2,6 +2,7 @@
 #define FISHINGNET_H_INCLUDED
 
 #include "FishingTool.h"
+#include <unordered_map>
 
 class FishingNet : public FishingTool
 {

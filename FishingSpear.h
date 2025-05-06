@@ -4,6 +4,7 @@
 #include "FishingTool.h"
 #include "FishingDepth.h"
 #include "FishCategory.h"
+#include <unordered_map>
 
 class FishingSpear : public FishingTool
 {
